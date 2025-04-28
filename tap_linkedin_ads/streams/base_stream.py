@@ -57,10 +57,8 @@ class LinkedInAdsStreamBase(RESTStream):
         headers = {}
         if "user_agent" in self.config:
             headers["User-Agent"] = self.config["user_agent"]
-        headers["LinkedIn-Version"] = "202404"
-        headers["Content-Type"] = "application/json"
-        headers["X-Restli-Protocol-Version"] = "2.0.0"
-
+        headers["LinkedIn-Version"] = "202502"
+        self.logger.info(headers)
         return headers
 
     def get_new_paginator(self) -> BaseAPIPaginator:
@@ -131,6 +129,8 @@ class LinkedInAdsStreamBase(RESTStream):
                     context,
                     next_page_token=paginator.current_value,
                 )
+                #self.logger.info(context,next_page_token=paginator.current_value)
+                self.logger.info(prepared_request.url)
                 # Patch to add unencoded params to the path and url
                 if self.get_unencoded_params(context):
                     prepared_request.url = (
@@ -143,6 +143,7 @@ class LinkedInAdsStreamBase(RESTStream):
                             ],
                         )
                     )
+                self.logger.info(f'the url is {prepared_request.url}')
                 resp = decorated_request(prepared_request, context)
                 request_counter.increment()
                 self.update_sync_costs(prepared_request, resp, context)

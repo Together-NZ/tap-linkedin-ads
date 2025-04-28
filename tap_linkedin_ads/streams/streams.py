@@ -532,10 +532,7 @@ class CampaignsStream(LinkedInAdsStream):
             A dictionary of URL query parameters.
         """
         return {
-            "search": (
-                "(status:(values:List(ACTIVE,PAUSED,ARCHIVED,COMPLETED,"
-                "CANCELED,DRAFT,PENDING_DELETION,REMOVED)))"
-            )
+         
         }
 
     def get_child_context(self, record: dict, context: dict | None) -> dict:  # noqa: ARG002
@@ -652,10 +649,7 @@ class CampaignGroupsStream(LinkedInAdsStream):
             A dictionary of URL query parameters.
         """
         return {
-            "search": (
-                "(status:(values:List(ACTIVE,ARCHIVED,CANCELED,DRAFT,PAUSED,"
-                "PENDING_DELETION,REMOVED)))"
-            )
+
         }
 
     def post_process(self, row: dict, context: dict | None = None) -> dict | None:

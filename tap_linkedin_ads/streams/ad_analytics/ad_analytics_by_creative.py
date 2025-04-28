@@ -144,10 +144,10 @@ class _AdAnalyticsByCreativeInit(AdAnalyticsBase):
     def adanalyticscolumns(self) -> list[str]:
         """List of columns for adanalytics endpoint."""
         return [
-            "viralLandingPageClicks,viralExternalWebsitePostClickConversions,externalWebsiteConversions,viralVideoFirstQuartileCompletions,leadGenerationMailContactInfoShares,clicks,viralClicks,shares,viralFullScreenPlays,videoMidpointCompletions,viralCardClicks,viralExternalWebsitePostViewConversions,viralTotalEngagements,viralCompanyPageClicks,actionClicks,viralShares,videoCompletions,comments,externalWebsitePostViewConversions,dateRange",
-            "costInUsd,landingPageClicks,oneClickLeadFormOpens,talentLeads,sends,viralOneClickLeadFormOpens,conversionValueInLocalCurrency,viralFollows,otherEngagements,viralVideoCompletions,cardImpressions,leadGenerationMailInterestedClicks,opens,totalEngagements,videoViews,viralImpressions,viralVideoViews,commentLikes,viralDocumentThirdQuartileCompletions,viralLikes",
-            "adUnitClicks,videoThirdQuartileCompletions,cardClicks,likes,viralComments,viralVideoMidpointCompletions,viralVideoThirdQuartileCompletions,oneClickLeads,fullScreenPlays,viralCardImpressions,follows,videoStarts,videoFirstQuartileCompletions,textUrlClicks,reactions,viralReactions,externalWebsitePostClickConversions,viralOtherEngagements,costInLocalCurrency",
-            "viralVideoStarts,viralRegistrations,viralJobApplyClicks,viralJobApplications,jobApplications,jobApplyClicks,viralExternalWebsiteConversions,postViewRegistrations,companyPageClicks,documentCompletions,documentFirstQuartileCompletions,documentMidpointCompletions,documentThirdQuartileCompletions,downloadClicks,viralDocumentCompletions,viralDocumentFirstQuartileCompletions,viralDocumentMidpointCompletions,approximateUniqueImpressions,viralDownloadClicks,impressions",
+            "clicks,videoMidpointCompletions,videoCompletions,dateRange",
+            "costInUsd,landingPageClicks,totalEngagements,videoViews,commentLikes",
+            "videoThirdQuartileCompletions,likes,oneClickLeads,fullScreenPlays,videoStarts,videoFirstQuartileCompletions,reactions,costInLocalCurrency",
+            "impressions",
         ]
 
     def get_url_params(
@@ -181,17 +181,18 @@ class _AdAnalyticsByCreativeInit(AdAnalyticsBase):
         start_date = pendulum.parse(self.config["start_date"])
         end_date = pendulum.parse(self.config["end_date"])
         return {
-            "pivot": "(value:CREATIVE)",
-            "timeGranularity": "(value:DAILY)",
-            "creatives": (
-                f"List(urn%3Ali%3AsponsoredCreative%3A{context['creative_id']})"
-            ),
-            "dateRange": (
-                f"(start:(year:{start_date.year},month:{start_date.month},day:{start_date.day}),"
-                f"end:(year:{end_date.year},month:{end_date.month},day:{end_date.day}))"
-            ),
-            "fields": self.adanalyticscolumns[0],
+            "pivot": "CREATIVE",
+            "timeGranularity": "DAILY",
+            "creatives": f"urn:li:sponsoredCreative:{context['creative_id']}",
+            "dateRange.start.year": start_date.year,
+            "dateRange.start.month": start_date.month,
+            "dateRange.start.day": start_date.day,
+            "dateRange.end.year": end_date.year,
+            "dateRange.end.month": end_date.month,
+            "dateRange.end.day": end_date.day,
+            "fields": ",".join(self.adanalyticscolumns),
         }
+
 
     def post_process(self, row: dict, context: dict | None = None) -> dict | None:
         viral_registrations = row.pop("viralRegistrations", None)

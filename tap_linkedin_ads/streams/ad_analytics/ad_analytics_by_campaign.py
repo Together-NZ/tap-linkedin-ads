@@ -181,17 +181,19 @@ class _AdAnalyticsByCampaignInit(AdAnalyticsBase):
         start_date = pendulum.parse(self.config["start_date"])
         end_date = pendulum.parse(self.config["end_date"])
         return {
-            "pivot": "(value:CAMPAIGN)",
-            "timeGranularity": "(value:DAILY)",
-            "campaigns": (
-                f"List(urn%3Ali%3AsponsoredCampaign%3A{context['campaign_id']})"
-            ),
-            "dateRange": (
-                f"(start:(year:{start_date.year},month:{start_date.month},day:{start_date.day}),"
-                f"end:(year:{end_date.year},month:{end_date.month},day:{end_date.day}))"
-            ),
+            "q": "analytics",
+            "pivot": "CAMPAIGN",
+            "timeGranularity": "DAILY",
+            "campaigns": f"urn:li:sponsoredCampaign:{context['campaign_id']}",
+            "dateRange.start.year": start_date.year,
+            "dateRange.start.month": start_date.month,
+            "dateRange.start.day": start_date.day,
+            "dateRange.end.year": end_date.year,
+            "dateRange.end.month": end_date.month,
+            "dateRange.end.day": end_date.day,
             "fields": self.adanalyticscolumns[0],
         }
+
 
 
 class _AdAnalyticsByCampaignSecond(_AdAnalyticsByCampaignInit):
