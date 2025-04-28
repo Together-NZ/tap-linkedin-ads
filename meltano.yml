@@ -15,15 +15,7 @@ plugins:
     - discover
     - about
     - stream-maps
-    config:
-      start_date: 
-      access_token: 
-      oauth_credentials:
-        refresh_token: 
-        client_id: 
-        client_secret: 
-      end_date:      # Optional (will default to NOW if not set)
-      user_agent: "tap-linkedin-ads your_email@yourcompany.com"
+
     # TODO: Declare settings and their types here:
     settings:
     - name: username
