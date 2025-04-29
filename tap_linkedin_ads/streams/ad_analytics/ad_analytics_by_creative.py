@@ -146,7 +146,7 @@ class _AdAnalyticsByCreativeInit(AdAnalyticsBase):
         return [
             "clicks,videoMidpointCompletions,videoCompletions,dateRange",
             "costInUsd,landingPageClicks,totalEngagements,videoViews,commentLikes",
-            "videoThirdQuartileCompletions,likes,oneClickLeads,fullScreenPlays,videoStarts,videoFirstQuartileCompletions,reactions,costInLocalCurrency",
+            "videoThirdQuartileCompletions,likes,comments,fullScreenPlays,videoStarts,videoFirstQuartileCompletions,follows,costInLocalCurrency",
             "impressions",
         ]
 
