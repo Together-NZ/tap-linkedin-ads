@@ -57,7 +57,7 @@ class LinkedInAdsStreamBase(RESTStream):
         headers = {}
         if "user_agent" in self.config:
             headers["User-Agent"] = self.config["user_agent"]
-        headers["LinkedIn-Version"] = "202502"
+        headers["LinkedIn-Version"] = "202511"
         self.logger.info(headers)
         return headers
 
